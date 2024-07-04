@@ -1,24 +1,17 @@
-<?php 
+<?php
+function getView() {
+    $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    $path = substr($path, strlen('myapp')); // Asegúrate de quitar el subdirectorio
+    $path = trim($path, '/');
 
-require_once __DIR__ . '/config/app.php';
-require_once __DIR__ . '/autoload.php';
-require_once __DIR__ . '/app/views/inc/session_start.php';
- 
-$routes = [
-    '' => 'login',
-    'dashboard' => 'dashboard',
-];
+    $routes = [
+        '' => 'login.php',  // Ruta por defecto
+        'login' => 'login.php',
+        'dashboard' => 'dashboard.php'
+    ];
 
-// Obtiene la ruta solicitada
-$requestUri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-$requestUri = str_replace('miapp/', '', $requestUri);
-
-// Verifica si la ruta existe en el array de rutas
-if (array_key_exists($requestUri, $routes)) {
-    $view = $routes[$requestUri];
-} else {
-    $view = '404';
+    return $routes[$path] ?? '404.php'; // Devuelve 404 si la ruta no existe
 }
 
-// Renderiza la vista correspondiente
-require_once __DIR__ . '/app/views/content/' . $view . '-view.php';
+$view = getView();
+?>

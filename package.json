@@ -1,5 +1,12 @@
 {
   "dependencies": {
     "composer": "^4.1.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  },
+  "scripts": {
+    "build-css": "tailwindcss -i ./app/views/css/index.css -o ./public/css/index.css --minify"
   }
+  
 }
