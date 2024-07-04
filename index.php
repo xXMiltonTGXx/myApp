@@ -1,9 +1,6 @@
 <?php
-require_once 'vendor/autoload.php'; 
-require_once 'app/config/app.php';         
-require_once 'app/views/inc/session_start.php';
-require_once 'app/routes/routes.php';
-
+require_once 'vendor/autoload.php';
+require 'app/routes/routes.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -11,6 +8,7 @@ require_once 'app/routes/routes.php';
     <?php require_once 'app/views/inc/head.php'; ?>
 </head>
 <body>
-    <?php include "app/views/layouts/{$view}"; ?>
+     
+    <!-- Contenido del cuerpo aquí -->
 </body>
 </html>
