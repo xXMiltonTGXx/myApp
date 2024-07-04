@@ -1,0 +1,16 @@
+{
+    "name": "milton/miapp",
+    "description": "ProyectoMonolitico PHP",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Milton Toalombo",
+            "email": "sakuraochoa@live.com"
+        }
+    ],
+    "require": {}
+}
