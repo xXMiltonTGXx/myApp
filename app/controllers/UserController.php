@@ -1,8 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Models\User;
-use App\Config\Database;
-use \PDO;
+use App\Config\Database; 
 
 class UserController {
     private $userModel;

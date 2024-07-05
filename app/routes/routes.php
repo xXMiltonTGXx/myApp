@@ -4,10 +4,12 @@ require_once 'vendor/autoload.php';  // Asegúrate de que esta línea está al p
 use App\Controllers\UserController;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
+use App\Controllers\ProductController;
  
 
 function getView() {
     $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $requestMethod = $_SERVER['REQUEST_METHOD']; // Capturar el método HTTP
     $requestUri = trim($requestUri, '/');
     $baseDir = 'miapp';
 
@@ -16,10 +18,20 @@ function getView() {
     }
     $requestUri = trim($requestUri, '/');
 
-    $routes = [
+    $getRoutes = [
         '' => function() { require __DIR__ . '/../views/layouts/login.php'; },
         'login' => function() { require __DIR__ . '/../views/layouts/login.php'; },
         'dashboard' => function() { require __DIR__ . '/../views/layouts/dashboard.php'; },
+        'mostrarProduct' => function() {
+            $controller = new ProductController();
+            $controller->showProducts();
+        },
+        'registerProduct' => function() { require __DIR__ . '/../views/layouts/registerProduct.php'; },
+        'buscarProduct' => function() { require __DIR__ . '/../views/layouts/buscar.php'; },
+        'logout' => function() {
+            $controller = new LogoutController();
+            $controller->logout();
+        },     
         'register' => function() {
             $controller = new UserController();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,6 +39,24 @@ function getView() {
             } else {
                 require __DIR__ . '/../views/layouts/register.php';
             }
+        },
+        'edit-product' => function() {
+            $controller = new ProductController();
+            $controller->editView($_GET['id']);
+        },
+        'buscarProduct' => function() {
+        $controller = new ProductController();
+        $controller->search();
+       },
+        
+        
+        // más rutas GET
+    ];
+
+    $postRoutes = [
+        'register' => function() {
+            $controller = new UserController();
+            $controller->register();
         },
         'iniciar-sesion'=>function(){
             $controller = new \App\Controllers\LoginController();
@@ -37,17 +67,28 @@ function getView() {
             }
             
         },
-        'logout' => function() {
-            $controller = new LogoutController();
-            $controller->logout();
-        },        
-        '404' => function() { require __DIR__ . '/../views/layouts/404.php'; }
+        'register-producto' => function() {
+            $controller = new ProductController();
+            $controller->register();
+        },
+        'delete-product' => function() {
+            $controller = new ProductController();
+            $controller->delete();
+        },
+        'edit-product' => function() {
+            $controller = new ProductController();
+            $controller->editProduct();
+    },
+        // más rutas POST
     ];
 
-    if (isset($routes[$requestUri])) {
-        $routes[$requestUri]();
+    // Decidir cuál grupo de rutas utilizar basado en el método HTTP
+    if ($requestMethod == 'GET' && isset($getRoutes[$requestUri])) {
+        $getRoutes[$requestUri]();
+    } elseif ($requestMethod == 'POST' && isset($postRoutes[$requestUri])) {
+        $postRoutes[$requestUri]();
     } else {
-        $routes['404']();
+        require __DIR__ . '/../views/layouts/404.php';
     }
 }
 

@@ -3,6 +3,4 @@
     <title>Mi App</title>
     <link rel="stylesheet" href="/myapp/public/css/index.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    
-
-    <script src="index.js"></script>
+    <script src="/myapp/app/views/js/index.js"></script>
